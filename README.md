@@ -1,35 +1,42 @@
-# frontend
+# YouCan Challenge FrontEnd Documentation
 
-This template should help get you started developing with Vue 3 in Vite.
+## Installation
 
-## Recommended IDE Setup
+### Requirements
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- NodeJS
+- NPM
 
-## Customize configuration
+### FrontEnd Installation
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+1. Clone the repository
+2. Run `npm install` to install all dependencies
+3. Run cp .env.example .env
+4. Run `npm run dev` to start the server
+5. Open `http://localhost:9000` in your browser  (or the port you have set in vite.config.js)
+6. Login with `admin@admin.com` and `password`
+7. Enjoy!
 
-## Project Setup
+### FrontEnd Description
 
-```sh
-npm install
-```
+This is the FrontEnd of the YouCan Challenge project. It is built with VueJS (Vite). It uses Axios for API calls. It is a SPA (Single Page Application) and uses Vue Router for routing. It also uses Pinia for state management.
 
-### Compile and Hot-Reload for Development
+### FrontEnd Structure
 
-```sh
-npm run dev
-```
+The FrontEnd is structured in the following way:
 
-### Compile and Minify for Production
+- `src` folder contains all the source code
+- `src/components` folder contains all the components used in the project such as inputs, buttons, etc... (except the ones that are used in only one page)
+- `src/layouts` folder contains the layouts used in the project such as the default layout, AppMenu layout, etc...
+- `src/views` folder contains all the pages of the project such as the CRUD Product Pages ,login page, the register page, etc...
+- `src/store` folder contains the Pinia store of the project
+- `src/router` folder contains the Vue Router of the project
+- `src/composables` folder contains the composables of the project such as the useResources composable, etc...
 
-```sh
-npm run build
-```
+### FrontEnd Dependencies
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- `axios` for API calls
+- `pinia` for state management
+- `vue-router` for routing
+- `vite` for the build tool
+- `vue` for the framework
