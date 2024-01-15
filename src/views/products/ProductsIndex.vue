@@ -14,7 +14,7 @@
           <div class="btn-list">
             <AButton variant="primary"
                      :to="{ name: 'products.create' }">
-              <IconPlus class="icon"/>
+              <IconPlus class="icon" />
               Create product
             </AButton>
           </div>
@@ -43,7 +43,7 @@
             <input type="text"
                    class="form-control form-control-sm"
                    v-model.lazy="filters[col.field]"
-                   v-if="col.filterable"/>
+                   v-if="col.filterable" />
           </td>
         </template>
 
@@ -54,14 +54,19 @@
         </template>
 
         <template #body-cell-categories="{ value }">
-          <span class="text-secondary" v-for="category in value" :key="category.id">
-            {{ category.name }}
+          <div v-if="!!value.length">
+            <span class="text-secondary text-truncate" v-for="category in value" :key="category.id">
+              {{ category.name }},
+            </span>
+          </div>
+          <span v-else class="text-secondary">
+
           </span>
         </template>
 
         <template #body-cell-image="{ value }">
           <span class="text-secondary">
-            <img :src="value" class="avatar avatar-sm" alt=""/>
+            <img :src="value" class="avatar avatar-sm" alt="" />
           </span>
         </template>
 
@@ -69,14 +74,14 @@
           <div class="d-flex justify-content-end gap-2">
             <AButton variant="primary"
                      :to="{ name: 'products.edit', params: { id: row.id } }">
-              <IconEdit class="icon"/>
+              <IconEdit class="icon" />
               Edit
             </AButton>
 
             <AButton variant="danger"
                      @click="handleDelete(row)"
                      :loading="deleting[row.id]">
-              <IconTrash class="icon"/>
+              <IconTrash class="icon" />
               Delete
             </AButton>
           </div>
@@ -89,28 +94,28 @@
 <script setup>
 import AButton from '@/components/button/AButton.vue';
 import ATable from '@/components/table/ATable.vue';
-import {IconPlus} from '@tabler/icons-vue';
-import {api} from '@/boot/api';
-import {ref} from 'vue';
-import {IconEdit} from '@tabler/icons-vue';
-import {IconTrash} from '@tabler/icons-vue';
-import {useResource} from '@/composables/useResource.js';
+import { IconPlus } from '@tabler/icons-vue';
+import { api } from '@/boot/api';
+import { ref } from 'vue';
+import { IconEdit } from '@tabler/icons-vue';
+import { IconTrash } from '@tabler/icons-vue';
+import { useResource } from '@/composables/useResource.js';
 
 const columns = [
-  {name: 'id', label: 'ID', field: 'id', sortable: true, filterable: true},
-  {name: 'name', label: 'name', field: 'name', sortable: true, filterable: true},
+  { name: 'id', label: 'ID', field: 'id', sortable: true, filterable: true },
+  { name: 'name', label: 'name', field: 'name', sortable: true, filterable: true },
   {
     name: 'description',
     label: 'Description',
     field: 'description',
     sortable: true,
     filterable: true,
-    style: {'max-width': '200px'}
+    style: { 'max-width': '200px' },
   },
-  {name: 'price', label: 'Price', field: 'price', sortable: true, filterable: true},
-  {name: 'image', label: 'image', field: 'image', sortable: true, filterable: true, type: 'image'},
-  {name: 'categories', label: 'categories', field: 'categories', sortable: true, filterable: true},
-  {name: 'actions', label: 'Actions', field: 'actions'},
+  { name: 'price', label: 'Price', field: 'price', sortable: true, filterable: true },
+  { name: 'image', label: 'image', field: 'image', sortable: true, filterable: true, type: 'image' },
+  { name: 'categories', label: 'categories', field: 'categories', sortable: true, filterable: true },
+  { name: 'actions', label: 'Actions', field: 'actions' },
 ];
 
 const deleting = ref({});
@@ -122,7 +127,7 @@ const {
   pagination,
   search,
   filters,
-  loading
+  loading,
 } = useResource('products');
 
 const handleDelete = (row) => {
@@ -131,14 +136,14 @@ const handleDelete = (row) => {
   deleting.value[row.id] = true;
 
   api.delete(`/products/${row.id}`)
-      .then(() => fetch())
-      .catch(() => alert('Something went wrong!'))
-      .finally(() => {
-        deleting.value[row.id] = false;
-      });
-}
+    .then(() => fetch())
+    .catch(() => alert('Something went wrong!'))
+    .finally(() => {
+      deleting.value[row.id] = false;
+    });
+};
 
 const handleSort = (newSort) => {
   sort.value = newSort;
-}
+};
 </script>

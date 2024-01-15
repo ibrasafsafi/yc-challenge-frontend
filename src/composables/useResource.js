@@ -42,14 +42,14 @@ export function useResource(resource) {
       .then((response) => {
         data.value = response.data.data;
 
-        pagination.value = {
-          page: response.data.meta.current_page,
-          perPage: response.data.meta.per_page,
-          total: response.data.meta.total,
-          from: response.data.meta.from,
-          to: response.data.meta.to,
-          lastPage: response.data.meta.last_page,
-        };
+          // pagination.value = {
+          //   page: response.data.meta.current_page,
+          //   perPage: response.data.meta.per_page,
+          //   total: response.data.meta.total,
+          //   from: response.data.meta.from,
+          //   to: response.data.meta.to,
+          //   lastPage: response.data.meta.last_page,
+          // };
       })
       .finally(() => {
         loading.value = false;
