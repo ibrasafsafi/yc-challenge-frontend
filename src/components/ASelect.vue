@@ -2,7 +2,7 @@
 
   <div class="mb-3">
     <div class="form-label">Categories</div>
-    <select class="form-select" :class="inputClasses">
+    <select class="form-select" :class="inputClasses" multiple>
       <option v-for="item in options" :key="item.id"
               @click="addItem(item)">
         {{ item.name }}
