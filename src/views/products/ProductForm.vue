@@ -63,18 +63,29 @@
 
               <div class="row">
                 <label class="form-label"> Image</label>
-                <div class="col-md-5">
+
+                <div class="col-md-4">
                   <input type="file"
-                         @change="handleImageUpload"
+                         @change="onChange"
+                         ref="imageInputRef"
                          accept="image/*"
                          class="form-control" />
                 </div>
 
                 <div class="col-md-7 ">
-                  <img :src="product.image"
-                       class="img-fluid avatar"
+                  <img :src="`${backUrl}/${product.image}`"
+                       @click.prevent="onFileChooserClicked"
+                       class="img-fluid avatar avatar-2xl cursor-pointer"
                        alt="" />
                 </div>
+
+                <div class=" invalid-feedback d-block">
+                  <div v-for="(error, index)  in validation.image"
+                       :key="`error-${index}`">
+                    {{ error }}
+                  </div>
+                </div>
+
 
               </div>
 
@@ -92,10 +103,12 @@
 <script setup>
 import AInput from '../../components/input/AInput.vue';
 import ASelect from '@/components/ASelect.vue';
+import { computed, ref } from 'vue';
+import { api } from '@/boot/api';
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(['submit', 'update:validation']);
 
-defineProps({
+const props = defineProps({
   loading: Boolean,
 
   validation: {
@@ -105,19 +118,55 @@ defineProps({
 
 const product = defineModel();
 
-const handleSubmit = () => {
+const backUrl = import.meta.env.VITE_FILES_URL;
+
+const handleSubmit = async () => {
+  await handleImageUpload();
+  if (!imageUploaded.value) return;
   emit('submit', product.value);
 };
 
-const handleImageUpload = (e) => {
-  const file = e.target.files[0];
 
-  const reader = new FileReader();
-
-  reader.readAsDataURL(file);
-
-  reader.onload = () => {
-    product.value.image = reader.result;
-  };
+const onFileChooserClicked = () => {
+  imageInputRef.value.click();
 };
+
+const imageInputRef = ref(null);
+const onChange = async (event) => {
+  const selectedFiles = event.target.files;
+  imageInputRef.value = selectedFiles[0];
+  // product.value.image = URL.createObjectURL(selectedFiles[0]);
+};
+
+const imageUploaded = ref(false);
+const handleImageUpload = async () => {
+  const file = imageInputRef.value;
+  const formData = new FormData();
+  formData.append('image', file);
+
+  validation.value.image = null;
+  imageUploaded.value = false;
+
+  await api.post('/products/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).then((resp) => {
+    product.value.image = resp.data;
+    imageUploaded.value = true;
+  }).catch(err => {
+    if (err.response.status === 422) {
+      validation.value.image = err.response.data.errors.image;
+    }
+  });
+
+};
+
+const validation = computed({
+  get: () => props.validation,
+  set: (v) => {
+    emit('update:validation', v);
+  },
+});
+
 </script>

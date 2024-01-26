@@ -2,7 +2,7 @@
   <ProductForm v-model="product"
                @submit="handleSubmit"
                :loading="fetching"
-               :validation="validation">
+               v-model:validation="validation">
     <template #title>
       Edit {{ product.title }}
     </template>

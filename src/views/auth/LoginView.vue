@@ -53,7 +53,7 @@
     <div class="text-center text-secondary mt-3">
       Don't have account yet?
       <RouterLink :to="{ name: 'register' }">
-        Sign in
+        Sign Up
       </RouterLink>
     </div>
   </div>

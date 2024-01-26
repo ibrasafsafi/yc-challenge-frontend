@@ -1,7 +1,7 @@
 <template>
   <ProductForm v-model="product"
                @submit="handleSubmit"
-               :validation="validation">
+               v-model:validation="validation">
     <template #title>
       New product
     </template>

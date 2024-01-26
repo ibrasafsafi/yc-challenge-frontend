@@ -66,7 +66,7 @@
 
         <template #body-cell-image="{ value }">
           <span class="text-secondary">
-            <img :src="value" class="avatar avatar-sm" alt="" />
+            <img :src="`${backUrl}/${value}`" class="avatar avatar-sm" alt="" />
           </span>
         </template>
 
@@ -130,6 +130,8 @@ const {
   loading,
 } = useResource('products');
 
+
+const backUrl = import.meta.env.VITE_FILES_URL
 const handleDelete = (row) => {
   if (!confirm('Are you sure you want to delete this product?')) return;
 
