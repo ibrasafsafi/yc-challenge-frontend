@@ -121,7 +121,9 @@ const product = defineModel();
 const backUrl = import.meta.env.VITE_FILES_URL;
 
 const handleSubmit = async () => {
-  await handleImageUpload();
+  if (imageInputRef.value.name) {
+    await handleImageUpload();
+  }
   if (!imageUploaded.value) return;
   emit('submit', product.value);
 };
@@ -138,7 +140,7 @@ const onChange = async (event) => {
   // product.value.image = URL.createObjectURL(selectedFiles[0]);
 };
 
-const imageUploaded = ref(false);
+const imageUploaded = ref(true);
 const handleImageUpload = async () => {
   const file = imageInputRef.value;
   const formData = new FormData();
